@@ -25,7 +25,7 @@ namespace UrlShortenerWithAngular.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestModel model)
         {
-            // Replace with your authentication logic (e.g., database query)
+            
             if (model.Username == "admin" && model.Password == "admin")
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));

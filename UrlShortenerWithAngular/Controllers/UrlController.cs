@@ -14,17 +14,17 @@ namespace UrlShortenerWithAngular.Controllers
                 _context = context;
             }
 
-            // Action to create a shortened URL       
+            //create a shortened URL       
             [HttpPost("create")]
             public IActionResult CreateShortenedUrl(string originalURL)
             {
-                // Generate a short code for the URL (you can use a library like Base62 or generate a unique code)
+                
                 string shortCode = GenerateShortCode();
 
                 var url = new Url
                 {
                     LongUrl = originalURL,
-                    ShortUrl = $"{Request.Scheme}://{Request.Host}/{shortCode}" // Include domain in shortened URL
+                    ShortUrl = $"{Request.Scheme}://{Request.Host}/{shortCode}" 
                 };
 
                 _context.Urls.Add(url);
@@ -35,11 +35,11 @@ namespace UrlShortenerWithAngular.Controllers
 
             private string GenerateShortCode()
             {
-                int count = _context.Urls.Count() + 1; // Get the count of existing URLs and increment for the new URL
+                int count = _context.Urls.Count() + 1; 
                 return Base62Encode(count);
             }
 
-            // Helper method to perform Base62 encoding
+            //encode original Url
             private string Base62Encode(int value)
             {
                 const string characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -53,7 +53,7 @@ namespace UrlShortenerWithAngular.Controllers
 
                 return base62;
             }
-
+            //redirection to the original link using short one
             [HttpGet("{shortCode}")]
             public IActionResult RedirectToUrl(string shortCode)
             {
@@ -72,8 +72,7 @@ namespace UrlShortenerWithAngular.Controllers
 
             public IActionResult GetUrl(int id)
             {
-                // Decode the Base62 short code to retrieve the URL
-                //int id = DecodeShortCode(shortCode);
+                
 
                 var url = _context.Urls.FirstOrDefault(u => u.Id == id);
                 if (url == null)
@@ -84,7 +83,7 @@ namespace UrlShortenerWithAngular.Controllers
                 return Ok(url);
             }
 
-            // Action to retrieve all URLs
+            //retrieve all URLs
             [HttpGet("all")]
 
             public IActionResult GetAllUrls()
